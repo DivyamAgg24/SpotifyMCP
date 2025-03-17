@@ -1,37 +1,16 @@
-import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import {
-    ListResourcesRequestSchema,
-    ReadResourceRequestSchema,
-} from "@modelcontextprotocol/sdk/types.js";
+import dotenv from 'dotenv';
 
 import { z } from "zod";
 
+dotenv.config()
 const server = new McpServer({
     name: "spotify",
     version: "1.0.0",
 });
 
-const accessToken = "BQDXv6W9V4XHijjzJgY9HKFwRwSZRrlu5u-eT5bsJOBOX_F4NLHkYSRVi4nplipafGMVdAHajVMhEZZBx-s2ECJQ-IPJR-Jmi3gPtUSEnP7-l4hks2BM-lnXOdKo5A56ItO7ICiupks"
-
-// async function fetchWebApi(endpoint: string, method: string) {
-//     const res = await fetch(`https://api.spotify.com/${endpoint}`, {
-//       headers: {
-//         Authorization: `Bearer ${accessToken}`,
-//       },
-//       method,
-//     //   body:JSON.stringify(body)
-//     });
-//     return await res.json();
-//   }
-  
-//   async function getTopTracks(){
-//     // Endpoint reference : https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
-//     return (await fetchWebApi(
-//       'v1/me/top/tracks?time_range=long_term&limit=5', 'GET'
-//     )).items;
-//   }
+const accessToken = "BQDx7I7jtZBsLKZ7Fsoo4HVH4rQI_kAcFlq_S-zo20nT1UpNcbR9YShjl8QRAAd9Vb1eldP6SHtikO-l12kiv9ZrUEhYHQl7PcR6-MGHlTUNYXRifeXz5G5vX4G017MTpB9dUer3ykI"
 
 server.tool(
     "get_artist",
@@ -59,6 +38,7 @@ server.tool(
     };
     }
     const allArtistsData = await artistData.json()
+    console.log(allArtistsData)
     const data = allArtistsData.artists || [];
     if (data.length===0) {
     return {
@@ -93,21 +73,10 @@ server.tool(
 async function main() {
     const transport = new StdioServerTransport();
     await server.connect(transport);
-    console.error("Weather MCP Server running on stdio");
+    console.error("Spotify MCP running on studio");
   }
   
   main().catch((error) => {
     console.error("Fatal error in main():", error);
     process.exit(1);
   });
-
-
-
-
-/*
-{
-    "access_token": 
-    "token_type": "Bearer",
-    "expires_in": 3600
-}
-*/
